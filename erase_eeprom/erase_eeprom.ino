@@ -10,7 +10,7 @@
 
 void setup()
 {
-    pinMode(13, OUTPUT);     
+  pinMode(13, OUTPUT);     
   // write a 0 to all 512 bytes of the EEPROM
   for (int i = 0; i < 512; i++)
     EEPROM.write(i, 0);

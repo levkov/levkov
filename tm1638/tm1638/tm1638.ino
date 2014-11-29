@@ -18,36 +18,39 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 // define a module on data pin 8, clock pin 9 and strobe pin 7
 TM1638 module(8, 9, 7);
-
-byte dots = 1;
-long value = 0x1234ABCD;
-
+int a;
+int color = 0x00FF;
+int color1 = 0xFF00;;
 void setup() {
  // initialize serial communication at 9600 bits per second:
  Serial.begin(9600);
  // display a hexadecimal number and set the left 4 dots
- module.setDisplayToHexNumber(0x1234ABCD, 0xF0);
-
- delay(3000);
+module.setupDisplay(true, 1); // where 7 is intensity (from 0~7)
+module.clearDisplay();
 }
 
 void loop() {
 
- byte keys = module.getButtons();
-
- Serial.println(dots);
-
- module.setDisplayToHexNumber(value, dots, true);
-
- // light the first 4 red LEDs and the last 4 green LEDs as the buttons are pressed
- module.setLEDs(((keys & 0xF0) << 8) | (keys & 0xF));
-
- delay(50);
-
- dots = (dots * 2);
- if (dots == 0) {
- dots = 1;
- }
-
- value = (value +1 ) & 0xFFFFFF;
+//module.setLED(TM1638_COLOR_RED, 0);  // set LED number x to red
+//module.setLED(TM1638_COLOR_GREEN, 1); // set LED number x to green
+//delay(1000);
+//module.setLED(TM1638_COLOR_NONE, 0);  // set LED number x to red
+//module.setLED(TM1638_COLOR_NONE, 1); // set LED number x to green
+//module.setLED(TM1638_COLOR_RED, 2);  // set LED number x to red
+//module.setLED(TM1638_COLOR_GREEN, 3); // set LED number x to green
+//delay(1000);
+module.setLEDs(0xE007);
+//delay(1000);
+for (a=5000; a!=0; a--) {
+  module.setDisplayToDecNumber(a,0,false);
+  if (color == 0x00FF){
+    color = 0xFF00; 
+  }
+  else {
+    color = 0x00FF; }
+  module.setLEDs(a);
+  
+//  module.setLED(TM1638_COLOR_NONE, a);  // set LED number x to red
+  delay(1000);
+}
 }
